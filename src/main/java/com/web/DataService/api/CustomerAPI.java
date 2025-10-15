@@ -2,26 +2,68 @@ package com.web.DataService.api;
 
 import java.util.Optional;
 
+import com.web.DataService.service.CustomersService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-import com.web.domain.Customer;
-import com.web.repository.CustomersRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import com.web.DataService.domain.Customer;
+import com.web.DataService.service.CustomersService;
 
 @RestController
 public class CustomerAPI {
 
-    @Autowired CustomersRepository repo;
+    @Autowired
+    CustomersService service;
 
     @GetMapping("/customers")
-    public Iterable<Customer> getAll() {
-        return repo.findAll();
+    public ResponseEntity<Iterable<Customer>> getAllCustomers() {
+        Iterable<Customer> customers = service.findAllCustomers();
+
+        if (customers == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(customers);
     }
 
-    @GetMapping("/purchases/{id}")
-    public Optional<Purchase> getPurchase(@PathVariable long id) {
-        return repo.findById(id);
+    @GetMapping("/customers/{id}")
+    public ResponseEntity<Customer> getCustomer(@PathVariable long id) {
+
+        Customer customer = service.findCustomerById(id).orElse(null);
+        return ResponseEntity.ok(customer);
+    }
+
+    @PutMapping("/customers/{id}")
+    public ResponseEntity<Customer> putCustomer(@PathVariable long id, @RequestBody Customer customer){
+        try{
+            Customer custom = service.updateCustomer(id, customer);
+            return ResponseEntity.ok(custom);
+        } catch (RuntimeException r){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+    @PostMapping("/customers")
+    public ResponseEntity<Customer> postCustomer(@RequestBody Customer customer){
+        try{
+            service.saveCustomer(customer);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+    @DeleteMapping("/customers/{id}")
+    public ResponseEntity<Customer> deleteCustomer(@PathVariable("id") long id){
+        try{
+            service.deleteCustomer(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
     }
 
     @GetMapping("/")

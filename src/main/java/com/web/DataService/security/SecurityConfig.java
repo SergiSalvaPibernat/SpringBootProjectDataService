@@ -44,7 +44,7 @@ public class SecurityConfig {
 
                 //  All inbound requests must be authenticated:
                 .authorizeHttpRequests( auth -> auth
-                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/customers", "/customers/{id}").permitAll()
                         .anyRequest().authenticated()
                 )
 
