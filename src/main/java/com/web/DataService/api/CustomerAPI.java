@@ -2,6 +2,7 @@ package com.web.DataService.api;
 
 import java.util.Optional;
 
+import com.web.DataService.domain.LoginRequest;
 import com.web.DataService.service.CustomersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -64,6 +65,13 @@ public class CustomerAPI {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+    }
+
+    @PostMapping("/customers/validate")
+    public ResponseEntity<Boolean> getCustomerValidation(@RequestBody LoginRequest loginRequest) {
+
+        boolean isCustomerValid = service.getCustomerValidation(loginRequest);
+        return ResponseEntity.ok(isCustomerValid);
     }
 
     @GetMapping("/")

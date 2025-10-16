@@ -3,6 +3,7 @@ package com.web.DataService.service;
 import java.util.Optional;
 
 import com.web.DataService.domain.Customer;
+import com.web.DataService.domain.LoginRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +44,15 @@ public class CustomerServiceImpl implements CustomersService{
     public void deleteCustomer(long id) {
         Customer custom = repo.findById(id).orElseThrow(()->new RuntimeException("Customer not found with id"));
         repo.deleteById(id);
+    }
+
+    @Override
+    public boolean getCustomerValidation(LoginRequest loginRequest) {
+
+        Customer customer = repo.findByNameAndPassword(loginRequest.getUsername()
+        ,loginRequest.getPassword()).orElse(null);
+
+        return customer != null;
     }
 
 }
