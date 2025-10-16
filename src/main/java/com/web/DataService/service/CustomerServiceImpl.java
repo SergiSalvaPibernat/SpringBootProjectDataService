@@ -50,7 +50,7 @@ public class CustomerServiceImpl implements CustomersService{
     @Override
     public boolean getCustomerValidation(LoginRequest loginRequest) {
 
-        Customer customer = repo.findByNameAndPassword(loginRequest.getUsername()
+        Customer customer = repo.findByUsernameAndPassword(loginRequest.getName()
         ,loginRequest.getPassword()).orElse(null);
 
         return customer != null;

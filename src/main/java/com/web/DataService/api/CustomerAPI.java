@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import com.web.DataService.domain.Customer;
 import com.web.DataService.service.CustomersService;
 
+
 @RestController
+@CrossOrigin
 public class CustomerAPI {
 
     @Autowired
@@ -21,7 +23,9 @@ public class CustomerAPI {
     @GetMapping("/customers")
     public ResponseEntity<Iterable<Customer>> getAllCustomers() {
         Iterable<Customer> customers = service.findAllCustomers();
-
+        System.out.println("Username " +customers.iterator().next().getName());
+        System.out.println("Password " + customers.iterator().next().getPassword());
+        System.out.println("Email " + customers.iterator().next().getEmail());
         if (customers == null){
             return ResponseEntity.notFound().build();
         }
@@ -70,7 +74,8 @@ public class CustomerAPI {
 
     @PostMapping("/customers/validate")
     public ResponseEntity<Boolean> getCustomerValidation(@RequestBody LoginRequest loginRequest) {
-
+        System.out.println("Username " +loginRequest.getName());
+        System.out.println("Password " + loginRequest.getPassword());
         boolean isCustomerValid = service.getCustomerValidation(loginRequest);
         return ResponseEntity.ok(isCustomerValid);
     }

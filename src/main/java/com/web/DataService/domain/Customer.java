@@ -15,7 +15,7 @@ public class Customer {
     long id;
 
     @Column(name="CUSTOMER_NAME")
-    String name;
+    String username;
 
     @Column(name="EMAIL")
     String email;
@@ -32,11 +32,11 @@ public class Customer {
     }
 
     public String getName() {
-        return name;
+        return username;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.username = name;
     }
 
     public String getEmail() {
