@@ -28,7 +28,6 @@ public class CustomerServiceImpl implements CustomersService{
 
     @Override
     public Customer updateCustomer(long id, Customer customer) {
-
         Customer custom = repo.findById(id).orElseThrow(()->new RuntimeException("Customer not found with id"));
         custom.setEmail(customer.getEmail());
         custom.setName(customer.getName());
@@ -36,9 +35,13 @@ public class CustomerServiceImpl implements CustomersService{
         return repo.save(custom);
     }
 
-    @Override
+    /*@Override
     public void saveCustomer(Customer customer) {
         repo.save(customer);
+    }*/
+    @Override
+    public Customer saveCustomer(Customer customer) {
+        return repo.save(customer);
     }
 
     @Override
@@ -63,7 +66,8 @@ public class CustomerServiceImpl implements CustomersService{
         if(customer == null){
             Customer cust = new Customer();
             cust.setPassword(registerRequest.getPassword());
-            cust.setName(registerRequest.getUsername());
+            //cust.setName(registerRequest.getUsername());
+            cust.setName(registerRequest.getName());
             cust.setEmail(registerRequest.getEmail());
             saveCustomer(cust);
             return true;
