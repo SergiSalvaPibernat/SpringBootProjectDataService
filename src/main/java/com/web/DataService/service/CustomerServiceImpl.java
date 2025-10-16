@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.web.DataService.domain.Customer;
 import com.web.DataService.domain.LoginRequest;
+import com.web.DataService.domain.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,6 +54,24 @@ public class CustomerServiceImpl implements CustomersService{
         ,loginRequest.getPassword()).orElse(null);
 
         return customer != null;
+    }
+
+    @Override
+    public boolean getCustomerValidationRegister(RegisterRequest registerRequest) {
+        Customer customer = repo.findByEmail(registerRequest.getEmail()).orElse(null);
+
+        if(customer == null){
+            Customer cust = new Customer();
+            cust.setPassword(registerRequest.getPassword());
+            cust.setName(registerRequest.getUsername());
+            cust.setEmail(registerRequest.getEmail());
+            saveCustomer(cust);
+            return true;
+        }
+        else{
+            return false;
+        }
+
     }
 
 }

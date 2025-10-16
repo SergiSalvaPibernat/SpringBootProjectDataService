@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.web.DataService.domain.Customer;
 import com.web.DataService.domain.LoginRequest;
+import com.web.DataService.domain.RegisterRequest;
 
 public interface CustomersService {
 
@@ -13,4 +14,5 @@ public interface CustomersService {
 	public void saveCustomer(Customer customer);
 	public void deleteCustomer(long id);
 	public boolean getCustomerValidation(LoginRequest loginRequest);
+	public boolean getCustomerValidationRegister(RegisterRequest registerRequest);
 }
