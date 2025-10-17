@@ -53,9 +53,13 @@ public class CustomerAPI {
     @PostMapping("/customers")
     public ResponseEntity<Customer> postCustomer(@RequestBody Customer customer){
         try{
+            System.out.println( "Saved " + customer.toString());
             service.saveCustomer(customer);
+
+            System.out.println( "Saved and update" +  customer.toString());
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e){
+            System.out.println( "Enter in the catch ");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -83,6 +87,7 @@ public class CustomerAPI {
     @PostMapping("/customers/validateRegister")
     public ResponseEntity<Boolean> getCustomerValidationRegister(@RequestBody RegisterRequest request) {
 
+        System.out.println(request.toString());
         boolean isCustomerValid = service.getCustomerValidationRegister(request);
         return ResponseEntity.ok(isCustomerValid);
     }

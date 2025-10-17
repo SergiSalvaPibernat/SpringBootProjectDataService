@@ -38,7 +38,15 @@ public class CustomerServiceImpl implements CustomersService{
 
     @Override
     public void saveCustomer(Customer customer) {
-        repo.save(customer);
+        Customer custom = repo.findByEmail(customer.getEmail()).orElse(null);
+
+        if(custom == null) {
+            repo.save(customer);
+        }
+        else{
+            throw new RuntimeException();
+        }
+
     }
 
     @Override
@@ -59,11 +67,12 @@ public class CustomerServiceImpl implements CustomersService{
     @Override
     public boolean getCustomerValidationRegister(RegisterRequest registerRequest) {
         Customer customer = repo.findByEmail(registerRequest.getEmail()).orElse(null);
-
+        System.out.println(registerRequest.toString());
+        System.out.println(customer);
         if(customer == null){
             Customer cust = new Customer();
             cust.setPassword(registerRequest.getPassword());
-            cust.setName(registerRequest.getUsername());
+            cust.setName(registerRequest.getName());
             cust.setEmail(registerRequest.getEmail());
             saveCustomer(cust);
             return true;
