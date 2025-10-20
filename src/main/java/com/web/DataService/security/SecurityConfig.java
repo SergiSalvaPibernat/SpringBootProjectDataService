@@ -39,6 +39,7 @@ public class SecurityConfig {
                  .authorizeHttpRequests( auth -> auth
                          .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/", "/customers/validate", "/customers/validateRegister").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/events/**").permitAll()  // Allow public access to view events
                          .anyRequest().authenticated()
                 )
 
